@@ -34,6 +34,11 @@
     .board-head,.player{display:grid;grid-template-columns:64px 1fr 100px;gap:12px;align-items:center;padding:13px 17px}
     .board-head{color:#cbb8e4;background:#211033;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
     .player{border-top:1px solid #ffffff0d}.rank{color:#d7a2ff;font-weight:900}.player-name{overflow-wrap:anywhere;font-weight:700}.votes{text-align:right;color:#d4a0ff;font-weight:800}
+    .player.top1{background:linear-gradient(90deg,#594300aa,#21160055);border-left:5px solid #ffd700}.player.top1 .rank,.player.top1 .player-name,.player.top1 .votes{color:#ffe66d}
+    .player.top2{background:linear-gradient(90deg,#063d77aa,#061b3855);border-left:5px solid #39a5ff}.player.top2 .rank,.player.top2 .player-name,.player.top2 .votes{color:#7ec8ff}
+    .player.top3{background:linear-gradient(90deg,#07502aaa,#071f1455);border-left:5px solid #38d879}.player.top3 .rank,.player.top3 .player-name,.player.top3 .votes{color:#70f0a3}
+    .prize{font-size:12px;font-weight:900;margin-top:4px;display:inline-block;padding:3px 8px;border-radius:999px}.top1 .prize{background:#ffd700;color:#271c00}.top2 .prize{background:#39a5ff;color:#001d35}.top3 .prize{background:#38d879;color:#002b12}
+    .vote-closed{padding:12px;border-radius:10px;background:#351a1a;color:#ffc7c7;margin-top:12px}
     .empty{padding:24px;text-align:center;color:#bcaed0}
     .features{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin:26px 0;color:#c9bddf;font-size:14px}.features b{color:#b94cff;font-size:19px;margin-right:7px}
     footer{position:relative;color:#746783;font-size:12px;padding:0 18px 22px;text-align:center}
@@ -52,14 +57,14 @@
   <form class="panel" id="voteForm">
     <label for="username">Ton pseudo</label>
     <input id="username" name="username" maxlength="24" minlength="2" required autocomplete="nickname" placeholder="Entre ton pseudo…">
-    <p class="hint">Tu peux voter une fois toutes les 1 h 30 avec le même pseudo. Le classement est partagé entre les visiteurs de ce site.</p>
+    <p class="hint">Chaque adresse IP peut voter une seule fois. Top 1 : 30 € 🥇 · Top 2 : 20 € 🥈 · Top 3 : 10 € 🥉</p>
     <button class="vote-btn" id="voteButton" type="submit">♛ VOTER POUR ISMAEL TML ➜</button>
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </form>
 
   <section class="section">
     <h2>🏆 Classement des votants</h2>
-    <p>Les pseudos ayant obtenu le plus de votes apparaissent en haut. Actualisation automatique.</p>
+    <p>Le podium récompense les 3 premiers : <strong style="color:#ffe66d">Top 1 : 30 €</strong> · <strong style="color:#7ec8ff">Top 2 : 20 €</strong> · <strong style="color:#70f0a3">Top 3 : 10 €</strong>. Actualisation automatique.</p>
     <div class="board">
       <div class="board-head"><span>Rang</span><span>Pseudo</span><span style="text-align:right">Votes</span></div>
       <div id="leaderboard"><div class="empty">Chargement du classement…</div></div>
@@ -74,23 +79,23 @@ const input = document.getElementById('username');
 const button = document.getElementById('voteButton');
 const statusBox = document.getElementById('status');
 const board = document.getElementById('leaderboard');
-const cooldownMs = 90 * 60 * 1000;
+let votingOpen = true;
 
 function showStatus(message, error=false) {
   statusBox.textContent = message;
   statusBox.className = 'status show' + (error ? ' error' : '');
 }
-function timeLeft(ms) {
-  const totalMinutes = Math.ceil(ms / 60000);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  return hours ? `${hours} h ${minutes} min` : `${minutes} min`;
-}
 async function refreshBoard() {
   try {
     const response = await fetch('/api/leaderboard', {cache:'no-store'});
     if (!response.ok) throw new Error('Erreur serveur');
-    const data = await response.json();
+    const payload = await response.json();
+    const data = Array.isArray(payload) ? payload : payload.leaderboard;
+    votingOpen = Array.isArray(payload) ? true : payload.votingOpen;
+    button.disabled = !votingOpen;
+    button.textContent = votingOpen ? '♛ VOTER POUR ISMAEL TML ➜' : 'VOTES FERMÉS';
+    if (!votingOpen && !document.getElementById('closedNotice')) { const notice=document.createElement('div'); notice.id='closedNotice'; notice.className='vote-closed'; notice.textContent='Les votes sont temporairement fermés par l’administrateur.'; form.appendChild(notice); }
+    if (votingOpen && document.getElementById('closedNotice')) document.getElementById('closedNotice').remove();
     board.replaceChildren();
     if (!data.length) {
       const empty = document.createElement('div');
@@ -101,10 +106,11 @@ async function refreshBoard() {
     }
     data.forEach((person, index) => {
       const row = document.createElement('div');
-      row.className = 'player';
+      row.className = 'player' + (index < 3 ? ` top${index+1}` : '');
       const rank = document.createElement('span'); rank.className = 'rank';
       rank.textContent = ['🥇','🥈','🥉'][index] || `#${index+1}`;
       const name = document.createElement('span'); name.className = 'player-name'; name.textContent = person.username;
+      if (index < 3) { const prize=document.createElement('span'); prize.className='prize'; prize.textContent=['TOP 1 · 30 €','TOP 2 · 20 €','TOP 3 · 10 €'][index]; name.appendChild(document.createElement('br')); name.appendChild(prize); }
       const votes = document.createElement('span'); votes.className = 'votes'; votes.textContent = person.votes;
       row.append(rank, name, votes); board.appendChild(row);
     });
@@ -127,10 +133,9 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json();
     if (!response.ok) {
-      if (result.retryAfterMs) showStatus(`Tu as déjà voté récemment. Réessaie dans ${timeLeft(result.retryAfterMs)}.`, true);
-      else showStatus(result.error || 'Impossible d’enregistrer ton vote.', true);
+      showStatus(result.error || 'Impossible d’enregistrer ton vote.', true);
     } else {
-      showStatus(`💜 Merci ${result.username} ! Ton vote est enregistré. Tu pourras revoter dans 1 h 30.`);
+      showStatus(`💜 Merci ${result.username} ! Ton vote est enregistré. Cette adresse IP ne peut plus voter.`);
       await refreshBoard();
     }
   } catch {

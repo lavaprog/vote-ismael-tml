@@ -1,11 +1,12 @@
 {
   "name": "vote-ismael-tml",
-  "version": "1.1.0",
+  "version": "3.0.0",
   "private": true,
-  "description": "Site de vote avec classement partagé et délai de 90 minutes, sans dépendances natives",
+  "description": "Site de vote par IP avec outils admin complets et podium coloré",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "admin": "node admin.js"
   },
   "engines": {
     "node": ">=18"

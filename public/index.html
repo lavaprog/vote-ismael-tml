@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090510">
+  <title>Vote pour Ismael TML 👑</title>
+  <style>
+    :root{--purple:#8b21ff;--pink:#c04dff;--bg:#08060f}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:#fff;font-family:Inter,Arial,sans-serif;background:radial-gradient(ellipse at 50% 42%,rgba(100,0,255,.22),transparent 38%),radial-gradient(ellipse at 0% 70%,rgba(112,0,255,.18),transparent 35%),radial-gradient(ellipse at 100% 65%,rgba(112,0,255,.16),transparent 35%),var(--bg)}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:radial-gradient(#cba4ff 1px,transparent 1px);background-size:42px 42px}
+    header{position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px clamp(18px,5vw,70px);border-bottom:1px solid #6e26a844}
+    .brand{font-size:clamp(19px,2.4vw,27px);font-weight:800}.brand span{color:var(--pink)}.support{color:#c9bddf;font-size:14px}
+    main{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 18px 28px}
+    .crown{font-size:48px;color:var(--pink);filter:drop-shadow(0 0 18px var(--purple))}
+    h1{margin:7px 0 12px;font-size:clamp(40px,8vw,76px);line-height:1;letter-spacing:-2px}h1 span{display:block;color:#b54cff;text-shadow:0 0 28px #9325ff73}
+    .subtitle{color:#c8bfd9;font-size:clamp(16px,2vw,20px);margin:12px 0 24px}
+    .profile{width:160px;height:160px;padding:5px;border-radius:50%;background:linear-gradient(135deg,#e7a2ff,#7400ff,#d44dff);box-shadow:0 0 28px #7a00ff;margin-bottom:22px;animation:pulse 2.8s infinite}
+    .profile img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:4px solid #090510}
+    .panel{width:min(100%,520px);text-align:left;padding:22px;border:1px solid #b65cff55;border-radius:18px;background:#160b24df;box-shadow:0 12px 45px #0006}
+    label{display:block;font-weight:700;margin-bottom:8px}
+    input{width:100%;padding:14px 15px;color:#fff;background:#090510;border:1px solid #6e36a2;border-radius:10px;font-size:16px;outline:none}
+    input:focus{border-color:#c04dff;box-shadow:0 0 0 3px #9a2aff25}
+    .hint{font-size:12px;color:#b9a9cb;margin:8px 0 16px}
+    button{font:inherit;cursor:pointer}
+    .vote-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:15px;border:2px solid #d28aff;border-radius:14px;color:white;background:linear-gradient(100deg,#a32aff,#6d16f5);box-shadow:0 0 20px #941dff70;font-size:17px;font-weight:900;transition:.2s}
+    .vote-btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.12);box-shadow:0 0 32px #af35ffb0}
+    .vote-btn:disabled{opacity:.55;cursor:not-allowed}
+    .status{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#090510;color:#e7d7ff;line-height:1.5;overflow-wrap:anywhere}.status.show{display:block}.status.error{color:#ffb8c0}
+    .section{width:min(100%,760px);margin:28px auto 0;text-align:left}
+    .section h2{font-size:24px;margin:0 0 6px}.section p{color:#bcaed0;font-size:14px;margin:0 0 15px}
+    .board{overflow:hidden;border:1px solid #b65cff55;border-radius:16px;background:#120a1cdd}
+    .board-head,.player{display:grid;grid-template-columns:64px 1fr 100px;gap:12px;align-items:center;padding:13px 17px}
+    .board-head{color:#cbb8e4;background:#211033;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+    .player{border-top:1px solid #ffffff0d}.rank{color:#d7a2ff;font-weight:900}.player-name{overflow-wrap:anywhere;font-weight:700}.votes{text-align:right;color:#d4a0ff;font-weight:800}
+    .empty{padding:24px;text-align:center;color:#bcaed0}
+    .features{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin:26px 0;color:#c9bddf;font-size:14px}.features b{color:#b94cff;font-size:19px;margin-right:7px}
+    footer{position:relative;color:#746783;font-size:12px;padding:0 18px 22px;text-align:center}
+    @keyframes pulse{0%,100%{box-shadow:0 0 22px #7a00ff,0 0 45px #7300ff59}50%{box-shadow:0 0 32px #9b32ff,0 0 68px #7300ff94}}
+    @media(max-width:520px){header{padding:18px}.support{max-width:120px;text-align:right;line-height:1.4}main{padding-top:28px}.profile{width:140px;height:140px}.panel{padding:17px}.board-head,.player{grid-template-columns:43px 1fr 70px;padding:12px}.section h2{font-size:21px}}
+  </style>
+</head>
+<body>
+<header><div class="brand">♛ Vote <span>Ismael TML</span></div><div class="support">Soutiens-moi en votant ! 💜</div></header>
+<main>
+  <div class="crown" aria-hidden="true">♛</div>
+  <h1>Vote pour <span>Ismael TML</span></h1>
+  <p class="subtitle">Chaque vote compte. Merci pour ton soutien ! 💜</p>
+  <div class="profile"><img src="/profil.jpg" alt="Photo de profil d’Ismael TML"></div>
+
+  <form class="panel" id="voteForm">
+    <label for="username">Ton pseudo</label>
+    <input id="username" name="username" maxlength="24" minlength="2" required autocomplete="nickname" placeholder="Entre ton pseudo…">
+    <p class="hint">Tu peux voter une fois toutes les 1 h 30 avec le même pseudo. Le classement est partagé entre les visiteurs de ce site.</p>
+    <button class="vote-btn" id="voteButton" type="submit">♛ VOTER POUR ISMAEL TML ➜</button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </form>
+
+  <section class="section">
+    <h2>🏆 Classement des votants</h2>
+    <p>Les pseudos ayant obtenu le plus de votes apparaissent en haut. Actualisation automatique.</p>
+    <div class="board">
+      <div class="board-head"><span>Rang</span><span>Pseudo</span><span style="text-align:right">Votes</span></div>
+      <div id="leaderboard"><div class="empty">Chargement du classement…</div></div>
+    </div>
+  </section>
+  <div class="features"><span><b>☆</b> Soutien</span><span><b>♡</b> Motivation</span><span><b>♛</b> Ensemble plus loin</span></div>
+</main>
+<footer>Fait avec 💜 pour Ismael TML</footer>
+<script>
+const form = document.getElementById('voteForm');
+const input = document.getElementById('username');
+const button = document.getElementById('voteButton');
+const statusBox = document.getElementById('status');
+const board = document.getElementById('leaderboard');
+const cooldownMs = 90 * 60 * 1000;
+
+function showStatus(message, error=false) {
+  statusBox.textContent = message;
+  statusBox.className = 'status show' + (error ? ' error' : '');
+}
+function timeLeft(ms) {
+  const totalMinutes = Math.ceil(ms / 60000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return hours ? `${hours} h ${minutes} min` : `${minutes} min`;
+}
+async function refreshBoard() {
+  try {
+    const response = await fetch('/api/leaderboard', {cache:'no-store'});
+    if (!response.ok) throw new Error('Erreur serveur');
+    const data = await response.json();
+    board.replaceChildren();
+    if (!data.length) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = 'Pas encore de vote. Sois le premier !';
+      board.appendChild(empty);
+      return;
+    }
+    data.forEach((person, index) => {
+      const row = document.createElement('div');
+      row.className = 'player';
+      const rank = document.createElement('span'); rank.className = 'rank';
+      rank.textContent = ['🥇','🥈','🥉'][index] || `#${index+1}`;
+      const name = document.createElement('span'); name.className = 'player-name'; name.textContent = person.username;
+      const votes = document.createElement('span'); votes.className = 'votes'; votes.textContent = person.votes;
+      row.append(rank, name, votes); board.appendChild(row);
+    });
+  } catch {
+    board.replaceChildren();
+    const error = document.createElement('div'); error.className='empty';
+    error.textContent='Le classement est indisponible. Vérifie que le serveur est lancé.';
+    board.appendChild(error);
+  }
+}
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const username = input.value.trim();
+  if (username.length < 2) { showStatus('Entre un pseudo d’au moins 2 caractères.', true); return; }
+  button.disabled = true; button.textContent = 'ENVOI DU VOTE…';
+  try {
+    const response = await fetch('/api/vote', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username})
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      if (result.retryAfterMs) showStatus(`Tu as déjà voté récemment. Réessaie dans ${timeLeft(result.retryAfterMs)}.`, true);
+      else showStatus(result.error || 'Impossible d’enregistrer ton vote.', true);
+    } else {
+      showStatus(`💜 Merci ${result.username} ! Ton vote est enregistré. Tu pourras revoter dans 1 h 30.`);
+      await refreshBoard();
+    }
+  } catch {
+    showStatus('Impossible de joindre le serveur. Vérifie que le site en ligne est bien configuré.', true);
+  } finally {
+    button.disabled = false; button.textContent = '♛ VOTER POUR ISMAEL TML ➜';
+  }
+});
+refreshBoard();
+setInterval(refreshBoard, 15000);
+</script>
+</body>
+</html>
